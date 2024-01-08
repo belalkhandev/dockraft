@@ -1,0 +1,17 @@
+.toastui-editor-defaultUI {
+    border: 0px solid $color-bg !important;
+
+    .toastui-editor-toolbar {
+        .toastui-editor-md-tab-container {
+            background: none !important;
+        }
+
+        .toastui-editor-defaultUI-toolbar {
+            background: none;
+        }
+    }
+}
+
+.ProseMirror {
+    font-size: 14px !important;
+}

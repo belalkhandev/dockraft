@@ -34,6 +34,14 @@ onMounted(() => {
         initialEditType: 'markdown',
         previewStyle: 'tab',
         usageStatistics: false,
+        toolbarItems: [
+            ['code', 'codeblock'],
+            ['heading', 'bold', 'italic'],
+            ['hr', 'quote'],
+            ['ul', 'ol'],
+            ['table', 'image', 'link'],
+            ['scrollSync'],
+        ],
         plugins: [colorPlugin, [codeSyntaxHighlightPlugin, {highlighter: Prism}]],
         events: {
             change: () => emit('update:modelValue', e.getHTML()),
