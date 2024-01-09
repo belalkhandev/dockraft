@@ -4,13 +4,25 @@
     position: relative;
 
     .sidebar-toggle {
-        position: fixed;
-        top: 0;
-        left: 235px;
-        color: #fff;
-        font-size: 1.75rem;
-        padding: 5px;
+        position: absolute;
+        top:  50%;
+        transform: translateY(-50%);
+        left: 270px;
+        padding: 10px 0;
         cursor: pointer;
+        z-index: 999;
+        transition: 250ms;
+
+        .bx {
+            color: $color-gray;
+            transition: 300ms;
+        }
+
+        &:hover {
+            .bx {
+                color: $color-primary;
+            }
+        }
     }
 
     .sidebar {
@@ -19,11 +31,12 @@
         overflow-y: auto;
         padding: 15px 0 15px;
         z-index: 9;
-        background-color: $color-white-75;
+        background-color: $color-bg-light;
         position: absolute;
         top: 0;
         left: 0;
-        transition: 250ms;
+        transition: 300ms;
+        border-right: 1px solid $color-gray-light;
 
         &::-webkit-scrollbar {
             position: absolute;
@@ -45,10 +58,12 @@
         }
 
         &.toggle-sidebar {
-            left: -270px;
+            z-index: -9;
         }
 
         .sidebar-items {
+            overflow-y: auto;
+
             .sidebar-item {
                 margin-bottom: 20px;
 
@@ -66,13 +81,14 @@
                     }
 
                     h4 {
-                        font-weight: 500;
+                        font-weight: 300;
                         color: $color-secondary;
                         margin: 0;
                         font-size: 1rem;
                         font-family: $fonts-primary;
                     }
                 }
+
                 .sidebar-item-body {
                     margin: 10px 0;
                     ul {
@@ -86,7 +102,7 @@
                                 color: $color-secondary;
                                 text-transform: capitalize;
                                 display: block;
-                                padding: 5px 0px;
+                                padding: 5px 0;
                                 font-size: 1rem;
 
                                 &.router-link-active {
@@ -113,11 +129,11 @@
 
                             &.active, &:hover {
                                 background-color: $color-primary-bg-light;
-                                transition: 250ms;
+                                transition: 300ms;
 
                                 &::after {
                                     background-color: $color-primary;
-                                    transition: 250ms;
+                                    transition: 300ms;
                                     visibility: visible;
                                     width: 4px;
                                 }
@@ -141,61 +157,52 @@
     }
 
     .main-content {
-        width: 100%;
+        width: calc(100% - 270px);
         height: 100%;
         overflow-y: auto;
         position: absolute;
         top: 0;
         right: 0;
         z-index: 1;
-        transition: 500ms;
-
-        &::after {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            content: '';
-            background: $color-bg;
-            border-right: 1px solid $color-gray-light;
-            opacity: 0.5;
-            z-index: -1;
-        }
+        background: $color-bg;
+        transition: 300ms;
 
         .content {
-            padding: 15px;
+            padding: 16px;
         }
-    }
-
-    .sidebar ~ .main-content {
-        width: calc(100% - 270px);
-        transition: 250ms;
     }
 
     .sidebar.toggle-sidebar ~ .main-content {
-        width: calc(100%);
-        transition: 250ms;
+        width: 100%;
+        transition: 300ms;
+    }
+
+    .sidebar.toggle-sidebar ~ .sidebar-toggle {
+        left: 0;
     }
 
     @media (max-width: 768px) {
+        .sidebar-toggle {
+            left: 0;
+        }
+
         .sidebar {
+            z-index: -9;
             left: -270px;
 
             &.toggle-sidebar {
+                z-index: 99;
                 left: 0;
-                background-color: $color-white;
-                box-shadow: 5px 0 7px #00000006;
+
+                ~ .sidebar-toggle {
+                    left: 270px;
+                }
             }
-        }
 
-        .sidebar-toggle {
-            left: auto;
-            right: 10px;
-        }
+            ~ .main-content {
+                width: calc(100%);
+            }
 
-        .sidebar ~ .main-content {
-            width: calc(100%);
         }
     }
 }

@@ -7,7 +7,7 @@
     <header>
         <div class="apps">
             <div class="app-brand">
-                <h2 class="text-white">Dockraft</h2>
+                <h2>Dockraft</h2>
             </div>
         </div>
         <div class="header-navs">
@@ -19,7 +19,7 @@
                     {{ $page.props.auth.user.name }}
                 </div>
                 <div class="nav-item">
-                    <Dropdown align="right" width="48">
+                    <Dropdown align="right">
                         <template #trigger>
                                 <span class="nav-icon" data-bs-toggle="tooltip" data-bs-placement="left" title="Profile">
                                     <i class='bx bx-user' ></i>
@@ -27,9 +27,9 @@
                         </template>
 
                         <template #content>
-                            <p class="text-primary">{{ $page.props.auth.user.name }} {{ $page.props.auth.user.email }}</p>
+                            <p class="text-dark mb-0 p-2 border-bottom">{{ $page.props.auth.user.name }} {{ $page.props.auth.user.email }}</p>
                             <DropdownLink :href="route('logout')" method="post" as="button">
-                                Log Out
+                                Logout
                             </DropdownLink>
                         </template>
                     </Dropdown>

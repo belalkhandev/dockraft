@@ -17,7 +17,7 @@ const form = useForm({
     <AdminPanelLayout title="Dashboard">
         <template #header>Dashboard</template>
 
-        <div class="box">
+        <div class="box" v-if="true">
             <div class="box-header">
                 <h5 class="box-title">Toast UI editor</h5>
             </div>
