@@ -11,8 +11,7 @@ class SettingsController extends Controller
 {
     public function __construct(
         protected SettingRepository $settingRepository
-    )
-    {
+    ) {
     }
 
     public function index()
@@ -20,7 +19,7 @@ class SettingsController extends Controller
         $settings = $this->settingRepository->getByPaginate();
 
         return Inertia::render('Settings', [
-            'settings' => $settings
+            'settings' => $settings,
         ]);
     }
 
@@ -28,7 +27,7 @@ class SettingsController extends Controller
     {
         $request->validate([
             'name' => ['required', 'unique:settings,name'],
-            'value' => ['required']
+            'value' => ['required'],
         ]);
 
         $this->settingRepository->storeByRequest($request);
@@ -40,7 +39,7 @@ class SettingsController extends Controller
     {
         $request->validate([
             'name' => ['required', 'unique:settings,name,'.$settingId],
-            'value' => ['required']
+            'value' => ['required'],
         ]);
 
         $this->settingRepository->updateByRequest($request, $settingId);

@@ -1,18 +1,17 @@
 <?php
 
-
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('login', function (){
-   return redirect(route('login'));
+Route::get('login', function () {
+    return redirect(route('login'));
 });
 
-Route::get('register', function (){
-   return redirect(route('login'));
+Route::get('register', function () {
+    return redirect(route('login'));
 });
 
 Route::middleware('guest')->group(function () {

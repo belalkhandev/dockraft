@@ -12,7 +12,7 @@ class Note extends Model
     protected $fillable = [
         'notable_type',
         'notable_id',
-        'note'
+        'note',
     ];
 
     public function notable()

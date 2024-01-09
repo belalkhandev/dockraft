@@ -17,7 +17,7 @@ class NoteRepository extends Repository
         return $this->query()->create([
             'notable_type' => get_class($model),
             'notable_id' => $model->id,
-            'note' => $request->get('note')
+            'note' => $request->get('note'),
         ]);
     }
 }

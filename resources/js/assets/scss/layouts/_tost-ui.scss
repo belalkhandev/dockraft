@@ -10,6 +10,26 @@
             background: none;
         }
     }
+
+    .toastui-editor-main {
+        .toastui-editor-main-container {
+            .toastui-editor-md-container {
+                .toastui-editor-md-preview {
+                    .toastui-editor-contents {
+                        font-size: 14px;
+
+                        h1 {
+                            border-bottom: 0px solid #dbdbdb;
+                        }
+
+                        h2 {
+                            border-bottom: 0px solid #dbdbdb;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .ProseMirror {
