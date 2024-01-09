@@ -26,8 +26,43 @@ const getActivePath = (routeName) => {
                             <NavLink :href="route('dashboard')">
                                 <i class="bx bx-tachometer"></i>
                                 Dashboard
+                            </NavLink>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
-                                <i class="icofont-accessibility"></i>
+            <div class="sidebar-item">
+                <div class="sidebar-item-header">
+                        <span class="icon">
+                            <i class="bx bx-cog"></i>
+                        </span>
+                    <h4>Project Management</h4>
+                </div>
+                <div class="sidebar-item-body">
+                    <ul>
+                        <li :class="{ 'active': $page.url === getActivePath(route('dashboard')) }">
+                            <NavLink :href="route('dashboard')">
+                                <i class='bx bx-leaf' ></i>
+                                Project
+                            </NavLink>
+                        </li>
+                        <li :class="{ 'active': $page.url === getActivePath(route('dashboard')) }">
+                            <NavLink :href="route('dashboard')">
+                                <i class='bx bx-task'></i>
+                                Issue
+                            </NavLink>
+                        </li>
+                        <li :class="{ 'active': $page.url === getActivePath(route('dashboard')) }">
+                            <NavLink :href="route('dashboard')">
+                                <i class='bx bx-file' ></i>
+                                Work Log
+                            </NavLink>
+                        </li>
+                        <li :class="{ 'active': $page.url === getActivePath(route('dashboard')) }">
+                            <NavLink :href="route('dashboard')">
+                                <i class='bx bx-file' ></i>
+                                Documentation
                             </NavLink>
                         </li>
                     </ul>
