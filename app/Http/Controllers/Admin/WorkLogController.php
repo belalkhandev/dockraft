@@ -20,7 +20,7 @@ class WorkLogController extends Controller
 
     public function index(): \Inertia\Response
     {
-        $logs = $this->logRepository->getLatestByPaginate(with: ['project']);
+        $logs = $this->logRepository->getLatestByPaginate(limit: 10, with: ['project']);
         $projects = $this->projectRepository->getAll();
 
         return Inertia::render('Worklogs', [

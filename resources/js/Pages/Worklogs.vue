@@ -9,6 +9,7 @@ import InputError from "@/Components/InputError.vue";
 import Pagination from "@/Components/Pagination.vue";
 import ToastEditor from "@/Components/ToastEditor.vue";
 import moment from "moment";
+import ToastViewer from "@/Components/ToastViewer.vue";
 
 const props = defineProps({
     work_logs: {
@@ -112,37 +113,33 @@ const deleteAction = (work_log_ref) => {
                         </div>
                     </div>
                     <div class="box-body">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>Ref</th>
-                                <th>Project</th>
-                                <th>Summary</th>
-                                <th>Worked at</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="(work_log, i) in work_logs.data">
-                                <td>{{ work_log.ref }}</td>
-                                <td>{{ work_log.project.name }}</td>
-                                <td>{{ work_log.summary }}</td>
-                                <td>{{ moment(work_log.worked_at || work_log.created_at).format('LL') }}</td>
-                                <td>
-                                    <div class="action">
-                                        <ul>
-                                            <li>
-                                                <button @click="editAction(work_log)" class="btn btn-sm btn-rounded btn-outline-warning"><i class="bx bx-edit"></i></button>
-                                            </li>
-                                            <li>
-                                                <button @click="deleteAction(work_log.id)" class="btn btn-sm btn-rounded btn-outline-danger"><i class="bx bx-trash"></i></button>
-                                            </li>
-                                        </ul>
+                        <div class="log-items">
+                            <div v-for="log in work_logs.data" class="log-item border-1 p-2 rounded-2 mb-3 bg-slate-50-50">
+                                <div class="log-item-header d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5>{{ log.project.name }}</h5>
+                                        <p>{{ moment(log.worked_at || log.created_at).format('LL') }}</p>
                                     </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                    <div>
+                                        <div class="action">
+                                            <ul class="d-flex justify-content-end align-items-center gap-2">
+                                                <li>
+                                                    <button @click="editAction(work_log)" class="btn btn-sm btn-rounded btn-outline-warning"><i class="bx bx-edit"></i></button>
+                                                </li>
+                                                <li>
+                                                    <button @click="deleteAction(work_log.id)" class="btn btn-sm btn-rounded btn-outline-danger"><i class="bx bx-trash"></i></button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="log-item-body">
+
+                                    <h5>{{ log.summary }}</h5>
+                                    <ToastViewer :content="log.description"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="box-footer">
                         <Pagination :data="work_logs"/>
