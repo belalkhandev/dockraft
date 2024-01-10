@@ -53,10 +53,10 @@ const getActivePath = (routeName) => {
                                 Issue
                             </NavLink>
                         </li>
-                        <li :class="{ 'active': $page.url === getActivePath(route('dashboard')) }">
-                            <NavLink :href="route('dashboard')">
+                        <li :class="{ 'active': $page.url === getActivePath(route('work-log.index')) }">
+                            <NavLink :href="route('work-log.index')">
                                 <i class='bx bx-file' ></i>
-                                Work Log
+                                Work Logs
                             </NavLink>
                         </li>
                         <li :class="{ 'active': $page.url === getActivePath(route('dashboard')) }">

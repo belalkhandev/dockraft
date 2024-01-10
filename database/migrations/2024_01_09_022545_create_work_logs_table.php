@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('work_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('ref');
+            $table->string('ref')->unique()->nullable();
             $table->foreignId('project_id')->nullable()->constrained('projects')->cascadeOnDelete();
             $table->string('summary');
             $table->text('description')->nullable();

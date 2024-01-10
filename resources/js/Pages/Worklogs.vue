@@ -8,16 +8,17 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import InputError from "@/Components/InputError.vue";
 import Pagination from "@/Components/Pagination.vue";
 import ToastEditor from "@/Components/ToastEditor.vue";
+import moment from "moment";
 
 const props = defineProps({
+    work_logs: {
+        type: Object,
+        default: () => ({})
+    },
     projects: {
         type: Object,
         default: () => ({})
     },
-    statuses: {
-        type: Object,
-        default: () => ({})
-    }
 });
 
 const displayFormModal = ref(false);
@@ -28,22 +29,21 @@ const showFormModal = () => {
 }
 
 const form = useForm({
-    project_ref: '',
-    name: '',
-    key: '',
-    description: '',
-    status: ''
+    work_log_ref: '',
+    project_id: '',
+    summary: '',
+    description: ''
 })
 
 const submitForm = () => {
-    if (!form.project_ref) {
+    if (!form.work_log_ref) {
         form.transform(data => ({
             ...data
-        })).post(route('project.create'), {
+        })).post(route('work-log.create'), {
             onSuccess: () => {
                 Toast.fire({
                     icon: 'success',
-                    title: 'Project stored successfully'
+                    title: 'Log stored successfully'
                 });
                 form.reset();
             },
@@ -51,11 +51,11 @@ const submitForm = () => {
     } else {
         form.transform(data => ({
             ...data
-        })).put(route('project.edit', form.project_ref), {
+        })).put(route('work-log.edit', form.work_log_ref), {
             onSuccess: () => {
                 Toast.fire({
                     icon: 'success',
-                    title: 'Project update successfully'
+                    title: 'Log update successfully'
                 });
 
                 displayFormModal.value = false
@@ -64,18 +64,17 @@ const submitForm = () => {
     }
 }
 
-const editAction = (project) => {
-    form.project_ref = project.ref;
-    form.name = project.name;
-    form.key = project.key;
-    form.description = project.description;
-    form.status = project.status;
+const editAction = (work_log) => {
+    form.work_log_ref = work_log.ref;
+    form.project_id = work_log.project_id;
+    form.summary = work_log.summary;
+    form.description = work_log.description;
 
     displayFormModal.value = true
 }
 
 
-const deleteAction = (project_ref) => {
+const deleteAction = (work_log_ref) => {
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -86,11 +85,11 @@ const deleteAction = (project_ref) => {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            form.delete(route('project.delete', project_ref), {
+            form.delete(route('work_log.delete', work_log_ref), {
                 onSuccess: () => {
                     Toast.fire({
                         icon: 'success',
-                        title: 'Project has been deleted successfully'
+                        title: 'Log has been deleted successfully'
                     });
                 }
             })
@@ -101,13 +100,13 @@ const deleteAction = (project_ref) => {
 </script>
 
 <template>
-    <AdminPanelLayout title="Projects">
-        <template #header>Projects</template>
+    <AdminPanelLayout title="Work logs">
+        <template #header>Work logs</template>
         <div class="row">
             <div class="col-lg-12">
                 <div class="box">
                     <div class="box-header">
-                        <h5 class="title">Projects</h5>
+                        <h5 class="title">Work logs</h5>
                         <div class="action">
                             <button @click="showFormModal" class="btn btn-sm btn-rounded btn-outline-primary"><i class="bx bx-plus"></i></button>
                         </div>
@@ -117,26 +116,26 @@ const deleteAction = (project_ref) => {
                             <thead>
                             <tr>
                                 <th>Ref</th>
-                                <th>Name</th>
-                                <th>Key</th>
-                                <th>Status</th>
+                                <th>Project</th>
+                                <th>Summary</th>
+                                <th>Worked at</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(project, i) in projects.data">
-                                <td>{{ project.ref }}</td>
-                                <td>{{ project.name }}</td>
-                                <td>{{ project.key }}</td>
-                                <td>{{ project.status }}</td>
+                            <tr v-for="(work_log, i) in work_logs.data">
+                                <td>{{ work_log.ref }}</td>
+                                <td>{{ work_log.project.name }}</td>
+                                <td>{{ work_log.summary }}</td>
+                                <td>{{ moment(work_log.worked_at || work_log.created_at).format('LL') }}</td>
                                 <td>
                                     <div class="action">
                                         <ul>
                                             <li>
-                                                <button @click="editAction(project)" class="btn btn-sm btn-rounded btn-outline-warning"><i class="bx bx-edit"></i></button>
+                                                <button @click="editAction(work_log)" class="btn btn-sm btn-rounded btn-outline-warning"><i class="bx bx-edit"></i></button>
                                             </li>
                                             <li>
-                                                <button @click="deleteAction(project.id)" class="btn btn-sm btn-rounded btn-outline-danger"><i class="bx bx-trash"></i></button>
+                                                <button @click="deleteAction(work_log.id)" class="btn btn-sm btn-rounded btn-outline-danger"><i class="bx bx-trash"></i></button>
                                             </li>
                                         </ul>
                                     </div>
@@ -146,7 +145,7 @@ const deleteAction = (project_ref) => {
                         </table>
                     </div>
                     <div class="box-footer">
-                        <Pagination :data="projects"/>
+                        <Pagination :data="work_logs"/>
                     </div>
                 </div>
             </div>
@@ -154,27 +153,23 @@ const deleteAction = (project_ref) => {
 
         <DialogModal :show="displayFormModal"  @close="displayFormModal = false" :max-width="'3xl'">
             <template #title>
-                {{ form.project_ref ? 'Edit' : 'Add' }} project
+                {{ form.work_log_ref ? 'Edit' : 'Add' }} work_log
             </template>
 
             <template #content>
                 <form @submit.prevent="submitForm">
+
                     <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" v-model="form.name" placeholder="e.g: Project A">
-                        <InputError class="mt-2" :message="form.errors.name" />
-                    </div>
-                    <div class="form-group">
-                        <label>Key</label>
-                        <input type="text" class="form-control" v-model="form.key" placeholder="e.g: PR">
-                        <InputError class="mt-2" :message="form.errors.key" />
-                    </div>
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select v-model="form.status" class="form-control form-select">
-                            <option v-for="status in statuses" :value="status">{{ status.charAt(0).toUpperCase() + status.slice(1) }}</option>
+                        <label>Project</label>
+                        <select v-model="form.project_id" class="form-control form-select">
+                            <option v-for="project in projects" :value="project.id">{{ project.name }}</option>
                         </select>
-                        <InputError class="mt-2" :message="form.errors.status" />
+                        <InputError class="mt-2" :message="form.errors.project_id" />
+                    </div>
+                    <div class="form-group">
+                        <label>Summary</label>
+                        <input type="text" class="form-control" v-model="form.summary" placeholder="e.g: Project A">
+                        <InputError class="mt-2" :message="form.errors.summary" />
                     </div>
                     <div class="form-group">
                         <label>Description</label>
@@ -185,7 +180,7 @@ const deleteAction = (project_ref) => {
 
             <template #footer>
                 <SecondaryButton @click="displayFormModal = false">Cancel</SecondaryButton>
-                <PrimaryButton @click="submitForm" class="ml-3">{{ form.project_ref ? 'Update' : 'Save' }}</PrimaryButton>
+                <PrimaryButton @click="submitForm" class="ml-3">{{ form.work_log_ref ? 'Update' : 'Save' }}</PrimaryButton>
             </template>
         </DialogModal>
 
