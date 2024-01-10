@@ -24,7 +24,8 @@ class WorkLogRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'summary' => 'required',
+            'project_id' => 'required'
         ];
     }
 }

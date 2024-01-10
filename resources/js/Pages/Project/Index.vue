@@ -152,7 +152,7 @@ const deleteAction = (project_ref) => {
             </div>
         </div>
 
-        <DialogModal :show="displayFormModal"  @close="displayFormModal = false" :max-width="'3xl'">
+        <DialogModal :show="displayFormModal"  @close="displayFormModal = false">
             <template #title>
                 {{ form.project_ref ? 'Edit' : 'Add' }} project
             </template>
@@ -164,17 +164,24 @@ const deleteAction = (project_ref) => {
                         <input type="text" class="form-control" v-model="form.name" placeholder="e.g: Project A">
                         <InputError class="mt-2" :message="form.errors.name" />
                     </div>
-                    <div class="form-group">
-                        <label>Key</label>
-                        <input type="text" class="form-control" v-model="form.key" placeholder="e.g: PR">
-                        <InputError class="mt-2" :message="form.errors.key" />
-                    </div>
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select v-model="form.status" class="form-control form-select">
-                            <option v-for="status in statuses" :value="status">{{ status.charAt(0).toUpperCase() + status.slice(1) }}</option>
-                        </select>
-                        <InputError class="mt-2" :message="form.errors.status" />
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Key</label>
+                                <input type="text" class="form-control" v-model="form.key" placeholder="e.g: PR">
+                                <InputError class="mt-2" :message="form.errors.key" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select v-model="form.status" class="form-control form-select">
+                                    <option value="">Select</option>
+                                    <option v-for="status in statuses" :value="status">{{ status.charAt(0).toUpperCase() + status.slice(1) }}</option>
+                                </select>
+                                <InputError class="mt-2" :message="form.errors.status" />
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Description</label>
@@ -184,7 +191,7 @@ const deleteAction = (project_ref) => {
             </template>
 
             <template #footer>
-                <SecondaryButton @click="displayFormModal = false">Cancel</SecondaryButton>
+                <SecondaryButton @click="displayFormModal = false">Close</SecondaryButton>
                 <PrimaryButton @click="submitForm" class="ml-3">{{ form.project_ref ? 'Update' : 'Save' }}</PrimaryButton>
             </template>
         </DialogModal>

@@ -156,17 +156,17 @@ const deleteAction = (work_log_ref) => {
 
             <template #content>
                 <form @submit.prevent="submitForm">
-
                     <div class="form-group">
                         <label>Project</label>
                         <select v-model="form.project_id" class="form-control form-select">
+                            <option value="">Select</option>
                             <option v-for="project in projects" :value="project.id">{{ project.name }}</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.project_id" />
                     </div>
                     <div class="form-group">
                         <label>Summary</label>
-                        <input type="text" class="form-control" v-model="form.summary" placeholder="e.g: Project A">
+                        <input type="text" class="form-control" v-model="form.summary" placeholder="e.g: summary">
                         <InputError class="mt-2" :message="form.errors.summary" />
                     </div>
                     <div class="form-group">
