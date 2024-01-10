@@ -32,6 +32,28 @@
     }
 }
 
+.toastui-editor-contents {
+    font-size: 14px !important;
+    color: $color-secondary;
+
+    p {
+        color: $color-secondary !important;
+    }
+
+    pre {
+        padding: 12px !important;
+        border: 1px solid $color-gray-light !important;
+        border-radius: 5px !important;
+        background-color: $color-white !important;
+    }
+
+    h1, h2, h3, h4 {
+        color: $color-secondary !important;
+        font-weight: 600 !important;
+        border-bottom: 0 solid #dbdbdb !important;
+    }
+}
+
 .ProseMirror {
     font-size: 14px !important;
 }

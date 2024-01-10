@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('work-logs')->group(function () {
         Route::get('/', [WorkLogController::class, 'index'])->name('work-log.index');
+        Route::get('/show/{workLogRef}', [WorkLogController::class, 'show'])->name('work-log.show');
         Route::get('/create', [WorkLogController::class, 'create'])->name('work-log.create');
         Route::post('/create', [WorkLogController::class, 'store']);
         Route::get('/{workLogRef}/edit', [WorkLogController::class, 'edit'])->name('work-log.edit');

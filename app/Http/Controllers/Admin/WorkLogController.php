@@ -23,9 +23,21 @@ class WorkLogController extends Controller
         $logs = $this->logRepository->getLatestByPaginate(limit: 10, with: ['project']);
         $projects = $this->projectRepository->getAll();
 
-        return Inertia::render('Worklogs', [
+        return Inertia::render('WorkLog/Index', [
             'work_logs' => $logs,
             'projects' => $projects,
+        ]);
+    }
+
+    public function show($workLogRef)
+    {
+        $log = $this->logRepository->query()
+            ->with('project')
+            ->ofRef($workLogRef)
+            ->firstOrFail();
+
+        return Inertia::render('WorkLog/Show', [
+            'log'  => $log
         ]);
     }
 

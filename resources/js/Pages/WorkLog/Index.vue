@@ -1,6 +1,6 @@
 <script setup>
 import {ref} from "vue";
-import {Head, Link, useForm} from "@inertiajs/vue3";
+import {Link, useForm} from "@inertiajs/vue3";
 import AdminPanelLayout from "@/Layouts/AdminPanelLayout.vue";
 import DialogModal from "@/Components/DialogModal.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
@@ -9,7 +9,6 @@ import InputError from "@/Components/InputError.vue";
 import Pagination from "@/Components/Pagination.vue";
 import ToastEditor from "@/Components/ToastEditor.vue";
 import moment from "moment";
-import ToastViewer from "@/Components/ToastViewer.vue";
 
 const props = defineProps({
     work_logs: {
@@ -106,37 +105,39 @@ const deleteAction = (work_log_ref) => {
         <div class="row">
             <div class="col-lg-12">
                 <div class="box">
-                    <div class="box-header">
+                    <div class="box-header no-border">
                         <h5 class="title">Work logs</h5>
                         <div class="action">
-                            <button @click="showFormModal" class="btn btn-sm btn-rounded btn-outline-primary"><i class="bx bx-plus"></i></button>
+                            <button @click="showFormModal" class="btn btn-sm btn-outline-primary">Add new</button>
                         </div>
                     </div>
                     <div class="box-body">
                         <div class="log-items">
-                            <div v-for="log in work_logs.data" class="log-item border-1 p-2 rounded-2 mb-3 bg-slate-50-50">
-                                <div class="log-item-header d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h5>{{ log.project.name }}</h5>
-                                        <p>{{ moment(log.worked_at || log.created_at).format('LL') }}</p>
+                            <div class="notes">
+                                <div v-for="log in work_logs.data" class="note bg-slate-50 border-1 p-2 rounded-1 mb-3">
+                                    <p class="mb-1">{{ log.summary }}</p>
+                                    <div class="mt-3 d-flex justify-content-start align-items-center gap-2">
+                                        <span v-if="log.project" class="text-xs">
+                                            {{ log.project.name }}
+                                        </span>
+                                        <small class="text-gray-300">|</small>
+                                        <span class="text-xs">
+                                            <i class="bx bx-calendar"></i>
+                                            {{ moment(log.worked_at || log.created_at).format('MMMM D Y') }}
+                                        </span>
+                                        <small class="text-gray-300">|</small>
+                                        <Link :href="route('work-log.show', log.ref)" class="text-slate-500 hover:text-green-600">
+                                            <i class="bx bx-show-alt"></i>
+                                        </Link>
+                                        <small class="text-gray-300">|</small>
+                                        <button @click="editAction(log)" class="text-slate-500 hover:text-blue-600">
+                                            <i class="bx bx-edit"></i>
+                                        </button>
+                                        <small class="text-gray-300">|</small>
+                                        <button @click="deleteAction(log.id)" class="text-slate-500 hover:text-orange-600">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
                                     </div>
-                                    <div>
-                                        <div class="action">
-                                            <ul class="d-flex justify-content-end align-items-center gap-2">
-                                                <li>
-                                                    <button @click="editAction(work_log)" class="btn btn-sm btn-rounded btn-outline-warning"><i class="bx bx-edit"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button @click="deleteAction(work_log.id)" class="btn btn-sm btn-rounded btn-outline-danger"><i class="bx bx-trash"></i></button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="log-item-body">
-
-                                    <h5>{{ log.summary }}</h5>
-                                    <ToastViewer :content="log.description"/>
                                 </div>
                             </div>
                         </div>
@@ -150,7 +151,7 @@ const deleteAction = (work_log_ref) => {
 
         <DialogModal :show="displayFormModal"  @close="displayFormModal = false" :max-width="'3xl'">
             <template #title>
-                {{ form.work_log_ref ? 'Edit' : 'Add' }} work_log
+                {{ form.work_log_ref ? 'Edit' : 'Add' }} Log
             </template>
 
             <template #content>
@@ -176,7 +177,7 @@ const deleteAction = (work_log_ref) => {
             </template>
 
             <template #footer>
-                <SecondaryButton @click="displayFormModal = false">Cancel</SecondaryButton>
+                <SecondaryButton @click="displayFormModal = false">Close</SecondaryButton>
                 <PrimaryButton @click="submitForm" class="ml-3">{{ form.work_log_ref ? 'Update' : 'Save' }}</PrimaryButton>
             </template>
         </DialogModal>
