@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('backlogs', function (Blueprint $table) {
             $table->id();
-            $table->string('ref')->unique()->nullable();
-            $table->string('name');
-            $table->string('key')->nullable();
+            $table->foreignId('project_id')->nullable()->constrained('projects')->cascadeOnDelete();
+            $table->string('summary');
             $table->text('description')->nullable();
-            $table->enum('status', \App\Enums\ProjectStatus::values())->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('backlogs');
     }
 };

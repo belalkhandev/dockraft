@@ -24,7 +24,7 @@ const getActivePath = (routeName) => {
                     <ul>
                         <li :class="{ 'active': $page.url === getActivePath(route('dashboard')) }">
                             <NavLink :href="route('dashboard')">
-                                <i class="bx bx-tachometer"></i>
+                                <i class="bx bxs-dashboard"></i>
                                 Dashboard
                             </NavLink>
                         </li>
@@ -41,8 +41,8 @@ const getActivePath = (routeName) => {
                 </div>
                 <div class="sidebar-item-body">
                     <ul>
-                        <li :class="{ 'active': $page.url === getActivePath(route('dashboard')) }">
-                            <NavLink :href="route('dashboard')">
+                        <li :class="{ 'active': $page.url === getActivePath(route('project.index')) }">
+                            <NavLink :href="route('project.index')">
                                 <i class='bx bx-leaf' ></i>
                                 Project
                             </NavLink>

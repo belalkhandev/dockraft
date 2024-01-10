@@ -22,6 +22,10 @@ const props = defineProps({
         required: false,
         default: '',
     },
+    height: {
+        type: String,
+        default: '300px',
+    },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -30,10 +34,11 @@ const editor = ref();
 onMounted(() => {
     const e = new Editor({
         el: editor.value,
-        height: '1000px',
+        height: props.height,
         initialEditType: 'markdown',
         previewStyle: 'tab',
         usageStatistics: false,
+        initialValue: props.modelValue,
         toolbarItems: [
             ['code', 'codeblock'],
             ['heading', 'bold', 'italic'],
@@ -44,7 +49,7 @@ onMounted(() => {
         ],
         plugins: [colorPlugin, [codeSyntaxHighlightPlugin, {highlighter: Prism}]],
         events: {
-            change: () => emit('update:modelValue', e.getHTML()),
+            change: () => emit('update:modelValue', e.getMarkdown()),
         },
     });
 });
